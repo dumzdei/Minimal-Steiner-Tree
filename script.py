@@ -1,6 +1,6 @@
 import subprocess
 import os
-from validator import validate
+from validator.validator import validate
 
 def run_pipeline(input_json_path, cpp_executable_path="router", output_json_path="output.json"):
     """
@@ -54,8 +54,8 @@ def run_pipeline(input_json_path, cpp_executable_path="router", output_json_path
         return False
 
 if __name__ == "__main__":
-    input_file = "input/test_first.json" # Путь к исходному файлу
-    cpp_binary = "./src/name"  # Путь к скомпилированному C++ файлу
+    input_file = "./input/test_first.json" # Путь к исходному файлу
+    cpp_binary = "SteinerTree"  # Путь к скомпилированному C++ файлу
     output_file = "output/output.json" # Путь к выходному файлу
     
     run_pipeline(input_file, cpp_binary, output_file)
