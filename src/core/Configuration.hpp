@@ -4,7 +4,7 @@
 
 /************************************************************************************
  *  @file   Configuration.hpp
- *  @brief  Файл содержит описание структур, содержащих информацию из json.
+ *  @brief  пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ json.
  ***********************************************************************************/
 
 struct Layer {
@@ -64,9 +64,9 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Net, net_id, weight, terminals)
 struct SteinerParams
 {
     std::string algorithm,
-        point_generation,
-        routing_model,
-        mst_method;
+                point_generation,
+                routing_model,
+                mst_method;
 
     bool        hanan_grid_enabled              = false,
                 obstacle_aware                  = false,
