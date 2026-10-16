@@ -1,0 +1,201 @@
+{
+  "design": {
+    "grid_width": 100,
+    "grid_height": 100,
+    "grid_unit": 1,
+    "layers": [
+      {
+        "id": "L1",
+        "name": "metal1",
+        "direction": "horizontal",
+        "cost_multiplier": 1.0
+      },
+      {
+        "id": "L2",
+        "name": "metal2",
+        "direction": "vertical",
+        "cost_multiplier": 1.0
+      }
+    ],
+    "via_cost": 2.0
+  },
+  "obstacles": [
+    {
+      "id": "OBS1",
+      "layer": "L1",
+      "x_start": 30,
+      "y_start": 30,
+      "x_end": 50,
+      "y_end": 45
+    },
+    {
+      "id": "OBS2",
+      "layer": "L2",
+      "x_start": 60,
+      "y_start": 10,
+      "x_end": 75,
+      "y_end": 40
+    },
+    {
+      "id": "OBS3",
+      "layer": "L1",
+      "x_start": 10,
+      "y_start": 70,
+      "x_end": 25,
+      "y_end": 85
+    }
+  ],
+  "nets": [
+    {
+      "net_id": "N1",
+      "weight": 1.0,
+      "terminals": [
+        {
+          "id": "T1",
+          "layer": "L1",
+          "x": 5,
+          "y": 5
+        },
+        {
+          "id": "T2",
+          "layer": "L1",
+          "x": 40,
+          "y": 10
+        },
+        {
+          "id": "T3",
+          "layer": "L1",
+          "x": 10,
+          "y": 25
+        },
+        {
+          "id": "T4",
+          "layer": "L1",
+          "x": 35,
+          "y": 20
+        },
+        {
+          "id": "T5",
+          "layer": "L1",
+          "x": 20,
+          "y": 5
+        }
+      ]
+    },
+    {
+      "net_id": "N2",
+      "weight": 1.5,
+      "terminals": [
+        {
+          "id": "T6",
+          "layer": "L1",
+          "x": 55,
+          "y": 55
+        },
+        {
+          "id": "T7",
+          "layer": "L2",
+          "x": 90,
+          "y": 60
+        },
+        {
+          "id": "T8",
+          "layer": "L1",
+          "x": 70,
+          "y": 80
+        },
+        {
+          "id": "T9",
+          "layer": "L2",
+          "x": 85,
+          "y": 90
+        },
+        {
+          "id": "T10",
+          "layer": "L1",
+          "x": 50,
+          "y": 95
+        },
+        {
+          "id": "T11",
+          "layer": "L1",
+          "x": 95,
+          "y": 75
+        }
+      ]
+    },
+    {
+      "net_id": "N3",
+      "weight": 0.8,
+      "terminals": [
+        {
+          "id": "T12",
+          "layer": "L1",
+          "x": 5,
+          "y": 50
+        },
+        {
+          "id": "T13",
+          "layer": "L1",
+          "x": 25,
+          "y": 60
+        },
+        {
+          "id": "T14",
+          "layer": "L1",
+          "x": 15,
+          "y": 90
+        }
+      ]
+    },
+    {
+      "net_id": "N4",
+      "weight": 1.2,
+      "terminals": [
+        {
+          "id": "T15",
+          "layer": "L1",
+          "x": 80,
+          "y": 5
+        },
+        {
+          "id": "T16",
+          "layer": "L1",
+          "x": 95,
+          "y": 25
+        },
+        {
+          "id": "T17",
+          "layer": "L2",
+          "x": 90,
+          "y": 40
+        },
+        {
+          "id": "T18",
+          "layer": "L1",
+          "x": 70,
+          "y": 15
+        }
+      ]
+    }
+  ],
+  "steiner_params": {
+    "algorithm": "hanan_grid_greedy",
+    "hanan_grid_enabled": true,
+    "point_generation": "hanan",
+    "obstacle_aware": true,
+    "multi_layer": true,
+    "routing_model": "rectilinear",
+    "mst_method": "prim",
+    "mst_baseline": true,
+    "improvement_iterations": 10,
+    "convergence_tol": 1e-4,
+    "allow_diagonal": false,
+    "bend_penalty": 0.5,
+    "preferred_direction_enforcement": false,
+    "max_steiner_points": 50,
+    "min_improvement_percent": 0.5,
+    "post_optimization": true,
+    "post_opt_methods": [ "edge_replacement", "node_shifting", "segment_merging" ]
+  }
+}

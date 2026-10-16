@@ -1,19 +1,18 @@
 #include "Configuration.hpp"
 /************************************************************************************
  *  @file   GraphStruct.hpp
- *  @brief  File 
+ *  @brief  Description of data structures for working with graphs.
  ***********************************************************************************/
 
 struct Node
 {
 	int			x = 0,
 				y = 0;
-
-	std::string layer;
-
+	std::string layer,
+				id;
 };
 
-struct Edges
+struct Edge
 {
 	Node	from		= {},
 			to			= {};
@@ -22,23 +21,27 @@ struct Edges
 
 };
 
-struct Graph
+class Graph
 {
+public:
 	std::string			net_id;
 	std::vector<Node>	points	= {};
-	std::vector<Edges>	edges	= {};
+
+	std::vector<Edge>	edges	= {}, //input 
+						mst		= {}; //mst
+
 	double				weight	= {};
+public:
+	void kruskal();
+	void primma();
 };
 
-//proccess:
-class proccess
+class Proccess
 {
+public:
 	Library				lib;
 	std::vector<Graph>	graphs;
+public:
 
-
+	void parseGraph(); //create graph and adding it to vector graphs
 };
-Graph parseGraph()
-{
-
-}

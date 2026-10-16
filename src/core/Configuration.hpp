@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include "json.hpp"
+#pragma once
 
 /************************************************************************************
  *  @file   Configuration.hpp
