@@ -1,5 +1,21 @@
 #include <GraphStruct.hpp>
 
+bool Proccess::isEdgeCrossObstacles(const Edge& _edge)
+{
+	int minX = std::min(_edge.from.x, _edge.to.x);
+	int maxX = std::max(_edge.from.x, _edge.to.x);
+	int minY = std::min(_edge.from.y, _edge.to.y);
+	int maxY = std::max(_edge.from.y, _edge.to.y);
+
+	for (const auto& obs : lib.obstacles)
+	{
+		if (minX <= obs.x_end && maxX >= obs.x_start && minY <= obs.y_end && maxY >= obs.y_start)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 void Proccess::parseGraph()
 {
@@ -14,6 +30,7 @@ void Proccess::parseGraph()
 
 			for (int j = i + 1; j < net.terminals.size(); j++)
 			{
+				//huynut suda if else na tipo blya nuzno li uchtivat prep))))))))
 				const auto& term2 = net.terminals[j];
 				Node to = { term2.x, term2.y, term2.layer , term2.id };
 				int distance = std::abs(from.x - to.x) + std::abs(from.y - to.y);

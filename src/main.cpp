@@ -6,8 +6,8 @@
 
 int main(int argc, char* argv[])
 {
-    work = new Proccess;
-    
+    Proccess* work = new Proccess;
+
     if (argc == 1) { return 0; }
     std::string input_path = argv[1];
 
@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
         Library lib = j.get<Library>();
         std::cout << "Data from " << input_path << " successfully loaded" << std::endl;
         work->lib = lib;
+        std::cout << "Data from " << input_path << "successfully loaded" << std::endl;
     }
     catch (const nlohmann::json::exception& e) {
         std::cerr << "Failed to parse JSON (ID: " << e.id << "): " << e.what() << std::endl;
@@ -37,6 +38,8 @@ int main(int argc, char* argv[])
     }
     work->graphs[0].kruskal();
 
+    Edge zalupa = { Node{ 0,0 },Node{ 5,5 } };
+    bool flag = work->isEdgeCrossObstacles(zalupa);
     delete work;
     return 0;
 }

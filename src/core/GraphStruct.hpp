@@ -42,6 +42,7 @@ public:
 	Library				lib;
 	std::vector<Graph>	graphs;
 public:
-
+	bool isEdgeCrossObstacles(const Edge& _edge);
 	void parseGraph(); //create graph and adding it to vector graphs
 };
+

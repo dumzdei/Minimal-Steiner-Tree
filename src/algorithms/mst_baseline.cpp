@@ -21,11 +21,10 @@ void Graph::kruskal()
 			mst.push_back(edge);
 			usedNodes.insert(n1.id);
 			usedNodes.insert(n2.id);
-
 		}
-		else {continue;}
+		else continue;
 	}
-
+	usedNodes.clear();
 }
 
 void Graph::primma()
