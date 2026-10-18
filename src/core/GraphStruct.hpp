@@ -1,4 +1,7 @@
 #include "Configuration.hpp"
+#include <map>
+#include <string>
+#include <vector>
 /************************************************************************************
  *  @file   GraphStruct.hpp
  *  @brief  Description of data structures for working with graphs.
@@ -10,6 +13,8 @@ struct Node
 				y = 0;
 	std::string layer,
 				id;
+
+	
 };
 
 struct Edge
@@ -18,25 +23,30 @@ struct Edge
 			to			= {};
 
 	int		distance	= 0; //can be manh and evkl
-
+	
+	bool operator>(const Edge& other) {
+		return distance > other.distance;
+	}
 };
 
 class Graph
 {
 public:
 	std::string			net_id;
-	std::vector<Node>	points	= {};
+	std::vector<Node>	nodes = {};
 
 	std::vector<Edge>	edges	= {}, //input 
 						mst		= {}; //mst
 
 	double				weight	= {};
+
+	std::unordered_map<std::string, std::vector<Edge>> adj;
 public:
 	void kruskal();
 	void primma();
 };
 
-class Proccess
+class Process
 {
 public:
 	Library				lib;
@@ -44,5 +54,7 @@ public:
 public:
 	bool isEdgeCrossObstacles(const Edge& _edge);
 	void parseGraph(); //create graph and adding it to vector graphs
+public:
+	void printGraph(std::ostream& out);
 };
 

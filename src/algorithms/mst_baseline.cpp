@@ -2,11 +2,18 @@
 
 #include <algorithm>
 #include <unordered_set>
+#include <queue>
 
 bool compare(const Edge& _edge1, const Edge& _edge2)
 {
 	return _edge1.distance < _edge2.distance;
 }
+
+struct CompareEdges {
+	bool operator()(const Edge& e1, const Edge& e2) {
+		return e1.distance > e2.distance;
+	}
+};
 
 void Graph::kruskal()
 {
@@ -29,5 +36,37 @@ void Graph::kruskal()
 
 void Graph::primma()
 {
-}
-;
+
+	std::unordered_set<std::string> visited;
+	std::priority_queue<Edge, std::vector<Edge>, CompareEdges> pq;
+	pq.push({this->nodes[0], this->nodes[0], 0});
+
+	weight = 0;
+
+	while (!pq.empty()) {
+		Edge current = pq.top();
+		pq.pop();
+
+		Node u = current.to;
+		
+		if (visited.count(u.id)) continue;
+
+		visited.insert(u.id);
+		weight += current.distance;
+
+		if (current.from.id != current.to.id) {
+			mst.push_back(current);
+		}
+
+		auto it = adj.find(u.id);
+		if (it != adj.end()) {
+			for (const Edge& edge : it->second) {
+				if (visited.count(edge.to.id) == 0) {
+					pq.push(edge);
+
+				}
+			}
+		}
+	}
+	visited.clear();
+};

@@ -6,7 +6,10 @@
 
 int main(int argc, char* argv[])
 {
-    Proccess* work = new Proccess;
+    Process* work = new Process;
+
+    std::string output_path = argv[2];
+    std::ofstream out(output_path);
 
     if (argc == 1) { return 0; }
     std::string input_path = argv[1];
@@ -29,17 +32,19 @@ int main(int argc, char* argv[])
 
     switch (work->lib.steiner_params.hanan_grid_enabled)
     {
-    case 0:
-        work->parseGraph();
-        break;
-    case 1:
-        work->parseGraph();
-        break;
+    //case 0:
+    //    work->parseGraph();
+    //    work->printGraph(out);
+    //    break;
+    //case 1:
+    //    work->parseGraph();
+    //    work->printGraph(out);
+    //    
+    //    break;
     }
-    work->graphs[0].kruskal();
-
-    Edge zalupa = { Node{ 0,0 },Node{ 5,5 } };
-    bool flag = work->isEdgeCrossObstacles(zalupa);
+    work->parseGraph();
+    work->graphs[0].primma();
+    work->printGraph(out);
     delete work;
     return 0;
 }
