@@ -15,23 +15,29 @@ struct CompareEdges {
 	}
 };
 
+std::string Graph::find_set(std::string i) {
+	if (i == parent[i])
+		return i;
+	else
+		return find_set(parent[i]);
+}
+void Graph::union_set(std::string u, std::string v) {
+	parent[u] = v;
+}
 void Graph::kruskal()
 {
 	std::sort(edges.begin(), edges.end(), compare);
-	std::unordered_set <std::string> usedNodes = {};
+	
 	for (auto const& edge : edges)
 	{
-		auto n1 = edge.from;
-		auto n2 = edge.to;
-		if (!(usedNodes.find(n1.id) != usedNodes.end()) || !(usedNodes.find(n2.id) != usedNodes.end()) )
-		{
+		std::string uRep = find_set(edge.from.id);
+		std::string vRep = find_set(edge.to.id);
+		if (uRep != vRep) {
 			mst.push_back(edge);
-			usedNodes.insert(n1.id);
-			usedNodes.insert(n2.id);
+			union_set(uRep, vRep);
 		}
 		else continue;
 	}
-	usedNodes.clear();
 }
 
 void Graph::primma()

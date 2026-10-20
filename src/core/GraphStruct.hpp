@@ -12,7 +12,8 @@ struct Node
 	int			x = 0,
 				y = 0;
 	std::string layer,
-				id;
+		id;
+				
 
 	
 };
@@ -41,7 +42,10 @@ public:
 	double				weight	= {};
 
 	std::unordered_map<std::string, std::vector<Edge>> adj;
+	std::unordered_map<std::string, std::string> parent;
 public:
+	std::string find_set(std::string i);
+	void union_set(std::string u, std::string v);
 	void kruskal();
 	void primma();
 };

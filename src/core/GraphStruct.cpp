@@ -52,6 +52,13 @@ void Process::parseGraph()
 
 		}
 	}
+	for (Graph& graph : graphs)
+	{
+		for (auto node : graph.nodes)
+		{
+			graph.parent[node.id] = node.id;
+		}
+	}
 
 }
 
