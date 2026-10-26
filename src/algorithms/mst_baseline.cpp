@@ -45,7 +45,7 @@ void Graph::primma()
 
 	std::unordered_set<std::string> visited;
 	std::priority_queue<Edge, std::vector<Edge>, CompareEdges> pq;
-	pq.push({this->nodes[0], this->nodes[0], 0});
+	pq.push({nodes[0], nodes[0], 0});
 
 	weight = 0;
 

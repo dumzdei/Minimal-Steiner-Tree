@@ -12,10 +12,7 @@ struct Node
 	int			x = 0,
 				y = 0;
 	std::string layer,
-		id;
-				
-
-	
+				id;
 };
 
 struct Edge
@@ -57,8 +54,10 @@ public:
 	std::vector<Graph>	graphs;
 public:
 	bool isEdgeCrossObstacles(const Edge& _edge);
-	void parseGraph(); //create graph and adding it to vector graphs
+	void parseGraphs(); //create graph and adding it to vector graphs
+	void parseGraphsHanan();
 public:
-	void printGraph(std::ostream& out);
+	void readGraphsFromFile(std::istream& in);
+	void writeGraphsToFile(std::ostream& out);
 };
 

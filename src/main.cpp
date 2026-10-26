@@ -2,6 +2,7 @@
 #include "GraphStruct.hpp"
 #include <iostream>
 #include <fstream>
+#include <execution> 
 
 
 int main(int argc, char* argv[])
@@ -13,7 +14,6 @@ int main(int argc, char* argv[])
 
     if (argc == 1) { return 0; }
     std::string input_path = argv[1];
-
     try {
         std::ifstream in(input_path);
         if (!in.is_open()) {
@@ -32,19 +32,28 @@ int main(int argc, char* argv[])
 
     switch (work->lib.steiner_params.hanan_grid_enabled)
     {
-    //case 0:
-    //    work->parseGraph();
-    //    work->printGraph(out);
-    //    break;
-    //case 1:
-    //    work->parseGraph();
-    //    work->printGraph(out);
-    //    
-    //    break;
+        case 0:
+            work->parseGraphs();
+            break;
+        case 1:
+            work->parseGraphsHanan();
+            break;
     }
-    work->parseGraph();
-    work->graphs[0].primma();
-    work->printGraph(out);
+    if (work->lib.steiner_params.mst_method == "prim")
+    {
+        for (auto& graph : work->graphs)
+            graph.primma();
+    }
+    else {
+        for (auto& graph : work->graphs)
+            graph.kruskal();
+    }
+    //std::for_each(std::execution::par, work->graphs.begin(), work->graphs.end(), []() {});
+ 
+    if (!out.is_open()) {
+        return 1;
+    }
+    work->writeGraphsToFile(out);
     delete work;
     return 0;
 }
