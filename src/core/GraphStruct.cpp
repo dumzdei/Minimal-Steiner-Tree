@@ -69,12 +69,12 @@ Node::Node(const Terminal& term) {
 	this->id = term.id;
 }
 
-bool Process::isEdgeCrossObstacles(const Edge& _edge)
+bool Process::isEdgeCrossObstacles(const Edge* _edge)
 {
-	int minX = std::min(_edge.from->x, _edge.to->x);
-	int maxX = std::max(_edge.from->x, _edge.to->x);
-	int minY = std::min(_edge.from->y, _edge.to->y);
-	int maxY = std::max(_edge.from->y, _edge.to->y);
+	int minX = std::min(_edge->from->x, _edge->to->x);
+	int maxX = std::max(_edge->from->x, _edge->to->x);
+	int minY = std::min(_edge->from->y, _edge->to->y);
+	int maxY = std::max(_edge->from->y, _edge->to->y);
 
 	for (const auto& obs : lib.obstacles)
 	{

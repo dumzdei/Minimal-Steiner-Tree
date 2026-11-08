@@ -11,6 +11,7 @@
 
 struct Node
 {
+public:
 	int			x = 0,
 				y = 0;
 	std::string layer,
@@ -20,14 +21,15 @@ struct Node
 			return true;
 		return false;
 	}
-
-	Node(const Terminal& term);
-	Node(int x, int y);
+public:
+	Node(const Terminal& term); //add new nodes from json
+	Node(int x, int y); //add new steiner points. need to add 'layer' and 'id'
 	~Node();
 };
 
 struct Edge
 {
+public:
 	Node	*from,
 			*to;
 
@@ -36,6 +38,7 @@ struct Edge
 	bool operator>(const Edge& other) {
 		return distance > other.distance;
 	}
+public:
 	Edge(Node* from, Node* to);
 	~Edge();
 };
@@ -44,25 +47,25 @@ class Graph
 {
 public:
 	std::string			net_id;
-	std::vector<Node*>	nodes = {};
+	std::vector<Node*>	nodes = {}; //all nodes stores here. dont use 'delete' to any containers
 
-	std::vector<Edge*>	edges	= {}, //input 
-						mst		= {}; //mst
+	std::vector<Edge*>	edges	= {}, //input.  all edges stores here. dont use 'delete' to any containers
+						mst		= {}; //mst. stores edges from 'edges'. dont delete from here
 
 	double				weight	= {};
-	std::vector<Node*>		CandidateNodesToSteiner;
+	std::vector<Node*>		CandidateNodesToSteiner; // stores steiner nodes. dont have elements from 'nodes'. there are can be deleted.
 
 
 	std::unordered_map<std::string, std::vector<Edge*>> adj;
 	std::unordered_map<std::string, std::string> parent;
 public:
-	std::string& find_set(std::string& i);
-	void union_set(std::string u, std::string v);
-	void kruskal();
-	void primma();
-public:
 	Graph(const Net& net);
 	~Graph();
+
+	std::string& find_set(std::string& i);
+	void union_set(std::string u, std::string v); // <--- what is it? 
+	void kruskal();
+	void primma();
 };
 
 class Process
@@ -71,13 +74,12 @@ public:
 	Library				lib;
 	std::vector<Graph*>	graphs;	
 public:
-	bool isEdgeCrossObstacles(const Edge& _edge);
+	~Process();
+	
+	bool isEdgeCrossObstacles(const Edge* _edge);
 	void parseGraphs(); //create graph and adding it to vector graphs
 	void parseGraphsHanan();
-	//void GenerateNodes(); //create nodes for candidates steiner:
-public:
 	void readGraphsFromFile(std::istream& in);
 	void writeGraphsToFile(std::ostream& out);
-	~Process();
 };
 
