@@ -9,6 +9,8 @@
  *  @brief  Description of data structures for working with graphs.
  ***********************************************************************************/
 
+class Process;
+
 struct Node
 {
 public:
@@ -59,7 +61,7 @@ public:
 	std::unordered_map<std::string, std::vector<Edge*>> adj;
 	std::unordered_map<std::string, std::string> parent;
 public:
-	Graph(const Net& net);
+	Graph(Process* work, const Net& net);
 	~Graph();
 
 	std::string& find_set(std::string& i);

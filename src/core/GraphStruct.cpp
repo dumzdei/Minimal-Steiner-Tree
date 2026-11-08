@@ -17,7 +17,7 @@ Edge::~Edge()
 
 }
 
-Graph::Graph(const Net& net) {
+Graph::Graph(Process* work, const Net& net) {
 	this->net_id = net.net_id;
 	for (int i = 0; i < net.terminals.size(); i++)
 	{
@@ -34,7 +34,11 @@ Graph::Graph(const Net& net) {
 		while (to != this->nodes.size())
 		{
 			Edge* edge = new Edge(this->nodes[from], this->nodes[to]);
-			this->edges.push_back(edge);
+			if (work->isEdgeCrossObstacles(edge)) 
+				delete edge;
+			else
+				this->edges.push_back(edge);
+			
 			to++;
 		}
 	}
@@ -78,6 +82,8 @@ bool Process::isEdgeCrossObstacles(const Edge* _edge)
 
 	for (const auto& obs : lib.obstacles)
 	{
+		//if (obs.layer != _edge->from->layer || obs.layer != _edge->to->layer) continue;
+
 		if (minX <= obs.x_end && maxX >= obs.x_start && minY <= obs.y_end && maxY >= obs.y_start)
 		{
 			return true;
@@ -90,7 +96,7 @@ void Process::parseGraphs()
 {
 	for (const auto& net : lib.nets)
 	{
-		Graph* graph = new Graph(net);
+		Graph* graph = new Graph(this, net);
 		
 		graphs.push_back(graph);
 	}
