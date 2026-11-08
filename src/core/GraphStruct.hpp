@@ -2,6 +2,8 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <set>
+
 /************************************************************************************
  *  @file   GraphStruct.hpp
  *  @brief  Description of data structures for working with graphs.
@@ -13,6 +15,12 @@ struct Node
 				y = 0;
 	std::string layer,
 				id;
+	bool operator==(Node& other){
+		if (x == other.x && y == other.y)
+			return true;
+		return false;
+	}
+
 };
 
 struct Edge
@@ -37,6 +45,8 @@ public:
 						mst		= {}; //mst
 
 	double				weight	= {};
+	std::vector<Node>		CandidateNodesToSteiner;
+
 
 	std::unordered_map<std::string, std::vector<Edge>> adj;
 	std::unordered_map<std::string, std::string> parent;
@@ -45,17 +55,20 @@ public:
 	void union_set(std::string u, std::string v);
 	void kruskal();
 	void primma();
+public:
+	
 };
 
 class Process
 {
 public:
 	Library				lib;
-	std::vector<Graph>	graphs;
+	std::vector<Graph>	graphs;	
 public:
 	bool isEdgeCrossObstacles(const Edge& _edge);
 	void parseGraphs(); //create graph and adding it to vector graphs
 	void parseGraphsHanan();
+	//void GenerateNodes(); //create nodes for candidates steiner:
 public:
 	void readGraphsFromFile(std::istream& in);
 	void writeGraphsToFile(std::ostream& out);

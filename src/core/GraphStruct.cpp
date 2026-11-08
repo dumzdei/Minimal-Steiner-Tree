@@ -62,58 +62,7 @@ void Process::parseGraphs()
 	}
 
 }
-void Process::parseGraphsHanan()
-{
-	
-	std::set<int> xSet = {};
-	std::set<int> ySet = {};
 
-	for (const auto& net : lib.nets)
-	{
-		for (const auto& terminal : net.terminals)
-		{
-			xSet.insert(terminal.x);
-			ySet.insert(terminal.y);
-		}
-		Graph hananGraph;
-
-		std::vector<int> xValues(xSet.begin(), xSet.end());
-		std::vector<int> yValues(ySet.begin(), ySet.end());
-
-		for (const auto& x_ : xValues)
-		{
-			for (const auto& y_ : yValues)
-			{
-				hananGraph.nodes.push_back(Node{ x_, y_ });
-			}
-		}
-
-		for (int i = 0; i < xValues.size() - 1; i++)
-		{
-			for (int j = 0; j < yValues.size(); j++)
-			{
-				Node from = { xValues[i], yValues[j] };
-				Node to = { xValues[i + 1], yValues[j] };
-				hananGraph.edges.push_back(Edge{ from, to });
-			}
-		}
-
-		/*for (int i = 0; i < yValues.size() - 1; i++)
-		{
-			for (int j = 0; j < xValues.size(); j++)
-			{
-				Node from = { xValues[j], yValues[i] };
-				Node to = { xValues[j], yValues[i+1] };
-				hananGraph.edges.push_back(Edge{ from, to });
-			}
-		}*/
-		graphs.push_back(hananGraph);
-		xSet.clear();
-		ySet.clear();
-		xValues.clear();
-		yValues.clear();
-	}
-}
 void Process::writeGraphsToFile(std::ostream& out) {
 	json root;
 	root["nets"] = json::array(); 

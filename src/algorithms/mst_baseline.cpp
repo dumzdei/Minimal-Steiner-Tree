@@ -75,4 +75,6 @@ void Graph::primma()
 		}
 	}
 	visited.clear();
-};
+}
+
+;

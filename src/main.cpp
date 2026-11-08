@@ -30,15 +30,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    switch (work->lib.steiner_params.hanan_grid_enabled)
-    {
-        case 0:
-            work->parseGraphs();
-            break;
-        case 1:
-            work->parseGraphsHanan();
-            break;
-    }
+    work->parseGraphs();
+
     if (work->lib.steiner_params.mst_method == "prim")
     {
         for (auto& graph : work->graphs)
