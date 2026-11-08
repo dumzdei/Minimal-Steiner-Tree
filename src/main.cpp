@@ -34,12 +34,12 @@ int main(int argc, char* argv[])
 
     if (work->lib.steiner_params.mst_method == "prim")
     {
-        for (auto& graph : work->graphs)
-            graph.primma();
+        for (Graph* graph : work->graphs)
+            graph->primma();
     }
     else {
-        for (auto& graph : work->graphs)
-            graph.kruskal();
+        for (Graph* graph : work->graphs)
+            graph->kruskal();
     }
     //std::for_each(std::execution::par, work->graphs.begin(), work->graphs.end(), []() {});
  

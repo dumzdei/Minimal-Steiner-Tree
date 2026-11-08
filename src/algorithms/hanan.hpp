@@ -2,4 +2,4 @@
 
 #include <string>
 
-void createCandidateNodesToSteiner(Graph& graph, std::string& GenerateType);
+void createCandidateNodesToSteiner(Graph* graph, std::string& GenerateType);
