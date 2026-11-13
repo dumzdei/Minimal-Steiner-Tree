@@ -1,0 +1,10 @@
+# Пример конфигурации 
+PROJECT_NAME           = "Minimal Steiner Tree"
+OUTPUT_DIRECTORY       = docs
+INPUT                  = src validator pipeline.py
+FILE_PATTERNS          = *.hpp *.cpp *.py
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+QUIET                  = YES

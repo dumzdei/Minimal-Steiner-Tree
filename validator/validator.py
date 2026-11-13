@@ -1,9 +1,18 @@
+"""@file validator.py
+@brief Проверяет, что выходной JSON содержит связные терминалы всех сетей.
+"""
+
 import json
 from collections import deque
 from pathlib import Path
 
 
 def read_json(path, file_kind):
+    """@brief Загружает JSON из файла.
+    @param path Путь к JSON-файлу.
+    @param file_kind Название типа файла для сообщения об ошибке.
+    @return Кортеж ``(успех, данные_или_сообщение_об_ошибке)``.
+    """
     try:
         with Path(path).open("r", encoding="utf-8") as json_file:
             return True, json.load(json_file)
@@ -22,6 +31,11 @@ def read_json(path, file_kind):
 
 
 def point_from_json(point, net_id):
+    """@brief Преобразует JSON-точку в кортеж координат.
+    @param point Словарь с полями ``x`` и ``y``.
+    @param net_id Идентификатор сети для сообщения об ошибке.
+    @return Кортеж ``((x, y), None)`` или ``(None, сообщение_об_ошибке)``.
+    """
     if not isinstance(point, dict) or not {"x", "y"}.issubset(point):
         return None, f"Сеть '{net_id}': точка должна содержать координаты x и y."
 
@@ -78,6 +92,12 @@ def output_nets(output_data):
 
 
 def terminals_connected(required_terminals, edges, net_id):
+    """@brief Проверяет достижимость всех терминалов обходом в ширину.
+    @param required_terminals Множество терминалов, которые должны быть соединены.
+    @param edges Список рёбер в формате выходного JSON.
+    @param net_id Идентификатор проверяемой сети.
+    @return Кортеж ``(True, None)`` либо ``(False, сообщение_об_ошибке)``.
+    """
     adjacency = {}
     for edge in edges:
         if not isinstance(edge, dict) or "from" not in edge or "to" not in edge:
@@ -117,6 +137,11 @@ def terminals_connected(required_terminals, edges, net_id):
 
 
 def validate(input_json_path, output_json_path):
+    """@brief Валидирует выходные маршруты относительно входных терминалов.
+    @param input_json_path Путь к исходным сетям и терминалам.
+    @param output_json_path Путь к рассчитанным рёбрам.
+    @return Кортеж ``(True, сообщение)`` при успехе, иначе ``(False, ошибка)``.
+    """
     input_ok, input_data = read_json(input_json_path, "Входной")
     if not input_ok:
         return False, input_data

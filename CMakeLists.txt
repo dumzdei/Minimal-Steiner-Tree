@@ -19,6 +19,19 @@ endif()
 
 add_executable(SteinerTree ${ALL_PROJECT_FILES})
 
+include(CTest)
+if(BUILD_TESTING)
+    add_executable(GraphStructTests
+        tests/cpp/graph_struct_tests.cpp
+        src/core/GraphStruct.cpp
+    )
+    target_include_directories(GraphStructTests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+    )
+    add_test(NAME GraphStructTests COMMAND GraphStructTests)
+endif()
+
 
 set_target_properties(SteinerTree PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_SOURCE_DIR}"

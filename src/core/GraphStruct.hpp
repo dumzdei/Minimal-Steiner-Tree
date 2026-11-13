@@ -3,14 +3,16 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <unordered_map>
 
-/************************************************************************************
- *  @file   GraphStruct.hpp
- *  @brief  Description of data structures for working with graphs.
- ***********************************************************************************/
+/**
+ * @file GraphStruct.hpp
+ * @brief Модели графа и операции для построения маршрутов.
+ */
 
 class Process;
 
+/** @brief Вершина графа с координатами и метаданными терминала. */
 struct Node
 {
 public:
@@ -18,29 +20,53 @@ public:
 				y = 0;
 	std::string layer,
 				id;
+
+	/**
+	 * @brief Сравнивает координаты двух вершин.
+	 * @param other Вершина для сравнения.
+	 * @return `true`, если координаты совпадают.
+	 */
 	bool operator==(Node& other){
 		if (x == other.x && y == other.y)
 			return true;
 		return false;
 	}
 public:
-	Node(const Terminal& term); //add new nodes from json
-	Node(int x, int y); //add new steiner points. need to add 'layer' and 'id'
+	/** @brief Создаёт вершину из терминала входной конфигурации. */
+	Node(const Terminal& term);
+
+	/**
+	 * @brief Создаёт точку Штейнера по координатам.
+	 * @param x Горизонтальная координата.
+	 * @param y Вертикальная координата.
+	 */
+	Node(int x, int y);
 	~Node();
 };
 
+/** @brief Ребро между двумя вершинами с манхэттенской длиной. */
 struct Edge
 {
 public:
 	Node	*from,
 			*to;
 
-	int		distance	= 0; //can be manh and evkl
-	
+	int		distance	= 0;
+
+	/**
+	 * @brief Сравнивает рёбра по длине.
+	 * @param other Ребро для сравнения.
+	 * @return `true`, если текущее ребро длиннее.
+	 */
 	bool operator>(const Edge& other) {
 		return distance > other.distance;
 	}
 public:
+	/**
+	 * @brief Создаёт ребро и вычисляет его манхэттенскую длину.
+	 * @param from Начальная вершина.
+	 * @param to Конечная вершина.
+	 */
 	Edge(Node* from, Node* to);
 	~Edge();
 };
