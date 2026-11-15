@@ -28,23 +28,22 @@ Python-пайплайн и валидатор готовы. На данном э
 Пайплайн вызывает C++-программу в следующем формате:
 
 ```text
-SteinerTree.exe <входной_json> <выходной_json> <алгоритм>
+SteinerTree.exe <входной_json> <выходной_json>
 ```
 
 Например:
 
 ```powershell
-.\SteinerTree.exe input\test.json output\result.json mst
+.\SteinerTree.exe input\test.json output\result.json
 ```
 
 C++-часть должна:
 
-1. Проверять, что передано ровно три аргумента после имени программы.
+1. Проверять, что передано ровно два аргумента после имени программы.
 2. Читать входной JSON из `argv[1]`.
-3. Использовать имя алгоритма из `argv[3]`.
-4. Обработать **каждый** объект из входного массива `nets`.
-5. Записать выходной JSON по пути из `argv[2]`.
-6. При ошибке чтения, построения или записи сообщать о ней в `stderr` и завершаться с **ненулевым** кодом.
+3. Обработать **каждый** объект из входного массива `nets`.
+4. Записать выходной JSON по пути из `argv[2]`.
+5. При ошибке чтения, построения или записи сообщать о ней в `stderr` и завершаться с **ненулевым** кодом.
 
 **Пайплайн не сможет подтвердить результат, если C++-программа не создаёт выходной файл.**
 
@@ -79,19 +78,19 @@ C++-часть должна:
 После реализации контракта C++-программы выполните:
 
 ```powershell
-python pipeline.py --executable .\SteinerTree.exe input\test.json mst output\result.json
+python pipeline.py input\test.json output\result.json
 ```
 
-Аргументы после `--executable` задаются повторяющимися тройками:
+При первом запуске пайплайн автоматически настроит CMake и соберёт `SteinerTree.exe`. Аргументы задаются повторяющимися парами:
 
 ```text
-<входной_json> <алгоритм> <выходной_json>
+<входной_json> <выходной_json>
 ```
 
 Несколько запусков за одну команду:
 
 ```powershell
-python pipeline.py --executable .\SteinerTree.exe input\test.json mst output\mst.json input\test.json hanan output\hanan.json
+python pipeline.py input\test.json output\mst.json input\test.json output\result.json
 ```
 
 Пайплайн создаёт родительскую папку для выходного файла, запускает C++-программу и затем проверяет структуру JSON, набор сетей и связность терминалов.

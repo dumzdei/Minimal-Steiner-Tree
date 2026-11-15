@@ -7,13 +7,16 @@
 
 int main(int argc, char* argv[])
 {
+    if (argc != 3) {
+        std::cerr << "Usage: SteinerTree <input_json> <output_json>" << std::endl;
+        return 1;
+    }
+
     Process* work = new Process;
 
+    std::string input_path = argv[1];
     std::string output_path = argv[2];
     std::ofstream out(output_path);
-
-    if (argc == 1) { return 0; }
-    std::string input_path = argv[1];
     try {
         std::ifstream in(input_path);
         if (!in.is_open()) {
