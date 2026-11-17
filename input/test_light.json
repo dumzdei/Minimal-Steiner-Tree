@@ -34,9 +34,24 @@
       "net_id": "N1",
       "weight": 1.0,
       "terminals": [
-        {"id": "T1", "layer": "L1", "x": 2, "y": 2},
-        {"id": "T2", "layer": "L1", "x": 18, "y": 2},
-        {"id": "T3", "layer": "L1", "x": 10, "y": 18}
+        {
+          "id": "T1",
+          "layer": "L1",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": "T2",
+          "layer": "L1",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "id": "T3",
+          "layer": "L1",
+          "x": 10,
+          "y": 18
+        }
       ]
     }
   ],
@@ -50,13 +65,16 @@
     "mst_method": "prim",
     "mst_baseline": true,
     "improvement_iterations": 5,
-    "convergence_tol": 1e-4,
+    "convergence_tol": 0.0001,
     "allow_diagonal": false,
     "bend_penalty": 0.5,
     "preferred_direction_enforcement": false,
     "max_steiner_points": 10,
     "min_improvement_percent": 0.5,
     "post_optimization": true,
-    "post_opt_methods": ["edge_replacement", "node_shifting"]
+    "post_opt_methods": [
+      "edge_replacement",
+      "node_shifting"
+    ]
   }
 }

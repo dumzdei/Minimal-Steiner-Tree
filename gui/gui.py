@@ -23,7 +23,6 @@ from PyQt6.QtWidgets import (
     QFrame,
     QLabel,
     QMainWindow,
-    QMenu,
     QMessageBox,
     QPlainTextEdit,
     QSplitter,
@@ -39,7 +38,6 @@ from PyQt6.QtWidgets import (
 INPUT_DIR = PROJECT_ROOT / "input"
 OUTPUT_DIR = PROJECT_ROOT / "output"
 RESULT_PATH = OUTPUT_DIR / "result.json"
-PIPELINE_PATH = PROJECT_ROOT / "pipeline.py"
 DEFAULT_EXECUTABLE = PROJECT_ROOT / ("SteinerTree.exe" if sys.platform == "win32" else "SteinerTree")
 NET_COLORS = ["#1f77b4", "#d62728", "#2ca02c", "#9467bd", "#ff7f0e", "#17becf"]
 
@@ -127,8 +125,6 @@ class SteinerTreeWindow(QMainWindow):
         self.result_data: dict[str, Any] | list[Any] | None = None
         self.result_window = ResultWindow(self)
         self.process: QProcess | None = None
-        self.process_input: Path | None = None
-        self.run_with_verification = False
 
         self.setWindowTitle("Steiner Tree")
         self.resize(1600, 950)
@@ -146,7 +142,6 @@ class SteinerTreeWindow(QMainWindow):
         self.save_as_action = QAction("Сохранить как...", self, shortcut="Ctrl+Shift+S", triggered=self.save_input_as)
         self.open_result_action = QAction("Открыть результат", self, triggered=self.open_result)
         self.run_action = QAction("Запустить", self, shortcut="F5", triggered=self.run)
-        self.run_verified_action = QAction("Запустить с верификацией", self, shortcut="Ctrl+F5", triggered=self.run_with_validation)
         self.validate_action = QAction("Проверить текущий результат", self, shortcut="F6", triggered=self.validate_result)
         self.exit_action = QAction("Выход", self, shortcut="Ctrl+Q", triggered=self.close)
         self.about_action = QAction("О программе", self, triggered=self.show_about)
@@ -164,7 +159,6 @@ class SteinerTreeWindow(QMainWindow):
 
         run_menu = self.menuBar().addMenu("Запуск")
         run_menu.addAction(self.run_action)
-        run_menu.addAction(self.run_verified_action)
         run_menu.addSeparator()
         run_menu.addAction(self.validate_action)
 
@@ -181,12 +175,7 @@ class SteinerTreeWindow(QMainWindow):
         self.run_button.setText("Запуск")
         self.run_button.setIcon(self._green_play_icon())
         self.run_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
-        self.run_button.setPopupMode(QToolButton.ToolButtonPopupMode.MenuButtonPopup)
         self.run_button.clicked.connect(self.run)
-        run_menu = QMenu(self.run_button)
-        run_menu.addAction(self.run_action)
-        run_menu.addAction(self.run_verified_action)
-        self.run_button.setMenu(run_menu)
         toolbar.addWidget(self.run_button)
         self.addToolBar(toolbar)
     def _green_play_icon(self) -> QIcon:
@@ -373,12 +362,6 @@ class SteinerTreeWindow(QMainWindow):
         return True
 
     def run(self) -> None:
-        self._start_run(verify=False)
-
-    def run_with_validation(self) -> None:
-        self._start_run(verify=True)
-
-    def _start_run(self, verify: bool) -> None:
         if self.process is not None:
             return
         if not self.save_input():
@@ -386,16 +369,14 @@ class SteinerTreeWindow(QMainWindow):
         editor = self._active_editor()
         if editor is None:
             return
-        input_path = self.input_editors[editor]
-        if not verify and not DEFAULT_EXECUTABLE.is_file():
-            self._show_error("Программа не собрана", "Для первой сборки выберите «Запустить с верификацией».")
+        if not DEFAULT_EXECUTABLE.is_file():
+            self._show_error("Программа не собрана", "Соберите проект, чтобы создать SteinerTree.exe.")
             return
 
         RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
-        self.process_input = input_path
-        self.run_with_verification = verify
+        input_path = self.input_editors[editor]
         self._log("=" * 60)
-        self._log("Запуск с верификацией..." if verify else "Запуск расчёта...")
+        self._log("Запуск расчёта...")
         self.process = QProcess(self)
         self.process.setWorkingDirectory(str(PROJECT_ROOT))
         self.process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
@@ -403,10 +384,7 @@ class SteinerTreeWindow(QMainWindow):
         self.process.errorOccurred.connect(self._process_error)
         self.process.finished.connect(self._run_finished)
         self._set_running(True)
-        if verify:
-            self.process.start(sys.executable, [str(PIPELINE_PATH), str(input_path), str(RESULT_PATH)])
-        else:
-            self.process.start(str(DEFAULT_EXECUTABLE), [str(input_path), str(RESULT_PATH)])
+        self.process.start(str(DEFAULT_EXECUTABLE), [str(input_path), str(RESULT_PATH)])
 
     def _read_process_output(self) -> None:
         if self.process is not None:
@@ -420,11 +398,10 @@ class SteinerTreeWindow(QMainWindow):
 
     def _run_finished(self, exit_code: int, _: QProcess.ExitStatus) -> None:
         self._read_process_output()
-        verified = self.run_with_verification
         self._set_running(False)
         self.process = None
         if exit_code == 0:
-            self._log("Расчёт и проверка завершены." if verified else "Расчёт успешно завершён.")
+            self._log("Расчёт успешно завершён.")
             self.statusBar().showMessage("Расчёт успешно завершён")
             self.load_result(RESULT_PATH)
         else:
@@ -435,7 +412,6 @@ class SteinerTreeWindow(QMainWindow):
     def _set_running(self, running: bool) -> None:
         self.run_button.setEnabled(not running)
         self.run_action.setEnabled(not running)
-        self.run_verified_action.setEnabled(not running)
         self.validate_action.setEnabled(not running)
         self.statusBar().showMessage("Выполняется расчёт..." if running else "Готово")
 
