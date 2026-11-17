@@ -34,9 +34,9 @@ Graph::Graph(Process* work, const Net& net) {
 		while (to != this->nodes.size())
 		{
 			Edge* edge = new Edge(this->nodes[from], this->nodes[to]);
-			if (work->isEdgeCrossObstacles(edge)) 
+			/*if (work->isEdgeCrossObstacles(edge)) 
 				delete edge;
-			else
+			else*/
 				this->edges.push_back(edge);
 			
 			to++;
@@ -73,7 +73,7 @@ Node::Node(const Terminal& term) {
 	this->id = term.id;
 }
 
-bool Process::isEdgeCrossObstacles(const Edge* _edge)
+/*bool Process::isEdgeCrossObstacles(const Edge* _edge)
 {
 	int minX = std::min(_edge->from->x, _edge->to->x);
 	int maxX = std::max(_edge->from->x, _edge->to->x);
@@ -90,7 +90,7 @@ bool Process::isEdgeCrossObstacles(const Edge* _edge)
 		}
 	}
 	return false;
-}
+}*/
 
 void Process::parseGraphs()
 {
