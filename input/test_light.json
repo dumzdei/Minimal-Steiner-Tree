@@ -1,0 +1,62 @@
+{
+  "design": {
+    "grid_width": 20,
+    "grid_height": 20,
+    "grid_unit": 1,
+    "layers": [
+      {
+        "id": "L1",
+        "name": "metal1",
+        "direction": "horizontal",
+        "cost_multiplier": 1.0
+      },
+      {
+        "id": "L2",
+        "name": "metal2",
+        "direction": "vertical",
+        "cost_multiplier": 1.0
+      }
+    ],
+    "via_cost": 2.0
+  },
+  "obstacles": [
+    {
+      "id": "OBS1",
+      "layer": "L1",
+      "x_start": 8,
+      "y_start": 8,
+      "x_end": 12,
+      "y_end": 12
+    }
+  ],
+  "nets": [
+    {
+      "net_id": "N1",
+      "weight": 1.0,
+      "terminals": [
+        {"id": "T1", "layer": "L1", "x": 2, "y": 2},
+        {"id": "T2", "layer": "L1", "x": 18, "y": 2},
+        {"id": "T3", "layer": "L1", "x": 10, "y": 18}
+      ]
+    }
+  ],
+  "steiner_params": {
+    "algorithm": "hanan_grid_greedy",
+    "hanan_grid_enabled": true,
+    "point_generation": "hanan",
+    "obstacle_aware": true,
+    "multi_layer": true,
+    "routing_model": "rectilinear",
+    "mst_method": "prim",
+    "mst_baseline": true,
+    "improvement_iterations": 5,
+    "convergence_tol": 1e-4,
+    "allow_diagonal": false,
+    "bend_penalty": 0.5,
+    "preferred_direction_enforcement": false,
+    "max_steiner_points": 10,
+    "min_improvement_percent": 0.5,
+    "post_optimization": true,
+    "post_opt_methods": ["edge_replacement", "node_shifting"]
+  }
+}
